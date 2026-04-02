@@ -1,8 +1,14 @@
 import asyncio
 from typing import Any, AsyncGenerator
 from openai import APIConnectionError, APIError, AsyncOpenAI, RateLimitError
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 from .schema import StreamEvent, TextDelta, TokenUsage, StreamEventType
+
+api_key = os.getenv('api_key')
 
 class LLMClient:
     def __init__(self) -> None:
@@ -12,7 +18,7 @@ class LLMClient:
     def get_client(self) -> AsyncOpenAI:
         if self._client is None:
             self._client = AsyncOpenAI(
-                api_key='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',
+                api_key=api_key,
                 base_url='https://openrouter.ai/api/v1',
                 default_headers={
                     "HTTP-Referer": "https://your-site-url.example",
